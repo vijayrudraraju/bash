@@ -1,0 +1,256 @@
+# Pandora
+export NVM_DIR="$HOME/.nvm"
+. "$(brew --prefix nvm)/nvm.sh"
+
+export HISTFILESIZE=
+export HISTSIZE=
+
+# export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+export CLICOLOR=1
+# export LSCOLORS=ExFxBxDxCxegedabagacad
+# export LSCOLORS=gxBxhxDxfxhxhxhxhxcxcx # black background
+export LSCOLORS=GxFxCxDxBxegedabagaced
+alias ls='ls -GFh'
+
+alias gl='git log -2'
+alias glog='git log -2'
+alias gst='git status'
+alias gco='git commit -m'
+alias gadd='git add -u'
+alias gdif='git --no-pager diff'
+alias gdiff='git --no-pager diff'
+alias gpul='git pull'
+alias gpull='git pull'
+
+vimgrep() {
+  if [ -z "$2" ]; then
+    vim -p +/"$1" `ag -l "$1"`   
+  else
+    vim -p +/"$1" `ag -l "$1" "$2"`   
+  fi
+}
+vimag() {
+  if [ -z "$2" ]; then
+    vim -p +/"$1" `ag -l "$1"`   
+  else
+    vim -p +/"$1" `ag -l "$1" "$2"`   
+  fi
+}
+vimfd() {
+  if [ -z "$2" ]; then
+    vim -p `fd "$1"`   
+  else
+    vim -p `fd "$1" "$2"`   
+  fi
+}
+vimfind() {
+  if [ -z "$2" ]; then
+    vim -p `fd "$1"`   
+  else
+    vim -p `fd "$1" "$2"`   
+  fi
+}
+function editconflicts() { 
+  vim -p +/"<<<<<<<" $( git diff --name-only --diff-filter=U | xargs )
+}
+alias vim='vim -p'
+alias vimdiff='vim -p `git diff --name-only`'
+alias vimlastdiff='vim -p `git log --pretty=format: --name-only -n 1`'
+
+alias web='cd ~/Code/web-client'
+alias ios='cd ~/Code/ios'
+alias android='cd ~/Code/main'
+alias core='cd ~/Code/radio-core'
+alias charon='cd ~/Code/charon'
+alias minos='cd ~/Code/minos'
+alias remoting='cd ~/Code/remoting-core-apis'
+alias radioesque='cd ~/Code/radioesque-token'
+alias vxcore='cd ~/Code/vx-core'
+
+alias dev='cd ~/dev'
+alias stage='cd ~/dev/main/stage'
+alias bootstrap='cd ~/dev/main/SavageBeast/Engineering/bootstrap'
+alias projects='cd ~/dev/main/SavageBeast/Engineering/projects'
+alias flexprojects='cd ~/dev/flex-integration/SavageBeast/Engineering/projects'
+alias radio='cd ~/dev/main/SavageBeast/Engineering/projects/radio'
+alias webviews='cd ~/dev/main/SavageBeast/Engineering/projects/radio/web/content/mobile'
+alias dependencies='vim ~/dev/main/SavageBeast/Engineering/projects/dependencies.versions'
+alias ansibledir='cd ~/dev/main/SavageBeast/Engineering/projects/deploy/ansible'
+
+alias localhost='cd ~/vm_localhost'
+alias config='vim ~/vm_localhost/.vm_config'
+alias defaultconfig='vim ~/vm_localhost/vmtools/data/dev_config'
+alias logs='cd ~/vm_localhost/var/log'
+alias vmlib='vim ~/vm_localhost/vmtools/lib/python/vmlib.py'
+
+alias vmsetup='cd ~/vmsetup'
+alias setup='vim ~/vmsetup/macos-dev-vm/playbooks/setup.yml'
+
+alias rebuildRadioCoreAndProjects='core; gradle publishToMavenLocal --parallel; projects; gradle :radio:build -x test --parallel; vm sync; vm restart;'
+alias rebuildProjects='projects; gradle build -x test --max-workers=12 --parallel --build-cache --configure-on-demand --stacktrace; vm sync; vm restart'
+
+alias vimsetup='vim ~/.vimrc'
+alias bashsetup='vim ~/.bash_profile'
+
+alias code='cd ~/Code'
+
+alias gopath='cd ~/Code/src'
+
+alias vijay='cd ~/Code/vijayrudraraju.github.io'
+
+alias gitg='cd ~/Code/gitground'
+alias buefy='cd ~/Code/gitground/buefy'
+
+alias konva='cd ~/Code/react-playground/konva-music-graph'
+alias spleunky='cd ~/Code/react-playground/spleunky'
+alias thumb-up='cd ~/Code/react-playground/minimal-react-webpack-babel-setup'
+
+alias min='cd ~/Code/gitground/min'
+
+#Checks the Status Iteratively
+alias vmstatus='function _vmstatus(){ i=0; while [[ $i -lt $1 ]] ; do vm status; i=`expr $i + 1`; echo $i;sleep $1; done };_vmstatus'
+
+#Returns Current VM
+alias whatvm='echo "VM_HOSTNAME: ${VM_HOSTNAME} VM_ROOT: ${VM_ROOT}"'
+
+# Restart Jetty
+alias restartJetty5="vm run 'jetty/services/Jetty restart'"
+
+#export GOPATH=/Users/vijayrudraraju/Code
+#export TERRAFORM=/Users/vijayrudraraju/Code/terraform
+#export BIN=/bin
+#export ANDROID_HOME="$HOME/Library/Android/sdk"
+#export ANACONDA="$HOME/anaconada/bin"
+#export PATH=$ANDROID_HOME:$TERRAFORM:$GOPATH:$GOPATH/bin:$PATH
+
+# Allows Ctrl-s to be using to do forward search (in middle of Ctrl-R search)
+stty -ixon
+if tput setaf 1 &> /dev/null; then
+  tput sgr0
+  if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
+    RED=$(tput setaf 9)
+    ORANGE=$(tput setaf 172)
+    GREEN=$(tput setaf 190)
+    PURPLE=$(tput setaf 141)
+    WHITE=$(tput setaf 256)
+  else
+    RED=$(tput setaf 5)
+    ORANGE=$(tput setaf 4)
+    GREEN=$(tput setaf 2)
+    PURPLE=$(tput setaf 1)
+    WHITE=$(tput setaf 7)
+  fi
+  BOLD=$(tput bold)
+  RESET=$(tput sgr0)
+else
+  RED="\033[1;31m"
+  ORANGE="\033[1;33m"
+  GREEN="\033[1;32m"
+  PURPLE="\033[1;35m"
+  WHITE="\033[1;37m"
+  BOLD=""
+  RESET="\033[m"
+fi
+
+parse_git_dirty () {
+  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit (working directory clean)" ]] && echo "*"
+}
+parse_git_branch () {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
+}
+
+export PS1="\[${BOLD}${ORANGE}\]\u ${RED}\D{%T} \[$WHITE\]in \[$GREEN\]\w\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\]\n\$ \[$RESET\]"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+#source ~/.bash/init.sh
+
+_apex()  {
+  COMPREPLY=()
+  local cur="${COMP_WORDS[COMP_CWORD]}"
+  local opts="$(apex autocomplete -- ${COMP_WORDS[@]:1})"
+  COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+  return 0
+}
+
+complete -F _apex apex
+
+# color tab completion text
+set colored-stats on
+
+# Git autocomplete http://code-worrier.com/blog/autocomplete-git/
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+fi
+
+# Rust package manager
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# PSQL
+export PGDATA=/usr/local/var/postgres
+#alias startpg='/usr/local/opt/postgresql@9.6/bin/pg_ctl -D ${PGDATA} start'
+#alias stoppg='/usr/local/opt/postgresql@9.6/bin/pg_ctl -D ${PGDATA} stop'
+#alias statuspg='/usr/local/opt/postgresql@9.6/bin/pg_ctl status'
+
+# Perforce
+export P4PORT="ssl:perforce.savagebeast.com:1666"
+export P4CLIENT="vrudraraju-laptop"
+export P4EDITOR='/usr/bin/vi +0 "+/<enter\|^>>>>\|^====\|^<<<<\|^\t" +nohlsearch'
+#export PATH=/usr/local/bin:$PATH
+export VMPYTHON=/usr/local/bin/python2.7
+export VM_HOSTNAME=localhost
+export VM_ROOT=/Users/vrudraraju/vm_localhost
+alias startpg='/usr/local/bin/pg_ctl -D ${PGDATA} start'
+alias stoppg='/usr/local/bin/pg_ctl -D ${PGDATA} stop'
+alias statuspg='/usr/local/bin/pg_ctl status'
+
+# Golang
+export GOPATH=~/Code/golang
+
+# Setting PATH for Python 3.6
+# The original version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+export PATH
+
+# added by Anaconda3 5.0.1 installer
+# export PATH="/Users/vrudraraju/anaconda3/bin:$PATH"
+
+# github.com/zquestz/s
+if [ -f $GOPATH/src/github.com/zquestz/s/autocomplete/s-completion.bash ]; then
+  . $GOPATH/src/github.com/zquestz/s/autocomplete/s-completion.bash
+fi
+
+# JRuby
+#export PATH=/Users/vrudraraju/Code/jruby-9.1.15.0/bin:$PATH
+
+# GNU Coreutils (for nice, for StatsCollector)
+#alias nice='/usr/local/opt/coreutils/libexec/gnubin/nice'
+#export PATH=/usr/local/opt/coreutils/libexec/gnubin/nice:$PATH
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+
+# Use MacVim
+#alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
+
+# added by Miniconda2 installer
+#export PATH="/Users/vrudraraju/miniconda2/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/vrudraraju/google-cloud-sdk/path.bash.inc' ]; then source '/Users/vrudraraju/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/vrudraraju/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/vrudraraju/google-cloud-sdk/completion.bash.inc'; fi
+
+# Slicr
+alias slicr='cd ~/Code/slicr'
+
+# rbenv
+eval "$(rbenv init -)"
+
+# added by Anaconda3 5.1.0 installer
+#export PATH="/anaconda3/bin:$PATH"
+
+# Set via http://go/dev-setup
+export LC_ALL=en_US.UTF-8
+
+# main to flex-integration
+alias integ-main-to-flex='p4 integ -d -b main-to-flex-integration'
