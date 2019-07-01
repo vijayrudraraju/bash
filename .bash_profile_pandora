@@ -21,6 +21,19 @@ alias gdif='git --no-pager diff'
 alias gdiff='git --no-pager diff'
 alias gpul='git pull'
 alias gpull='git pull'
+alias gurl='git remote show origin'
+alias gdevel='git checkout devel'
+alias gdev='git checkout devel'
+alias gstash='git stash list'
+alias glist='git stash list'
+alias gpop='git stash pop'
+alias gshow='git stash show -p'
+alias gpush='git push origin HEAD'
+alias gsearch='git branch --list'
+alias glast='git log --pretty=format: --name-only -n 1'
+alias glastbranches="git for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/"
+
+alias nstart='npm start'
 
 vimgrep() {
   if [ -z "$2" ]; then
@@ -50,16 +63,25 @@ vimfind() {
     vim -p `fd "$1" "$2"`   
   fi
 }
+agr() {
+  ag -0 -l "$1" | xargs -0 perl -pi.bak -e "s/$1/$2/g";
+}
 function editconflicts() { 
   vim -p +/"<<<<<<<" $( git diff --name-only --diff-filter=U | xargs )
 }
 alias vim='vim -p'
 alias vimdiff='vim -p `git diff --name-only`'
+alias vimlast='vim -p `git log --pretty=format: --name-only -n 1`'
 alias vimlastdiff='vim -p `git log --pretty=format: --name-only -n 1`'
 
 alias web='cd ~/Code/web-client'
+alias devel='cd ~/Code/web-client-devel'
+alias rc='cd ~/Code/web-client-rc'
+alias pr='cd ~/Code/web-client-pr'
+
 alias ios='cd ~/Code/ios'
 alias android='cd ~/Code/main'
+
 alias core='cd ~/Code/radio-core'
 alias charon='cd ~/Code/charon'
 alias minos='cd ~/Code/minos'
@@ -71,9 +93,11 @@ alias dev='cd ~/dev'
 alias stage='cd ~/dev/main/stage'
 alias bootstrap='cd ~/dev/main/SavageBeast/Engineering/bootstrap'
 alias projects='cd ~/dev/main/SavageBeast/Engineering/projects'
+alias proj='cd ~/dev/main/SavageBeast/Engineering/projects'
 alias flexprojects='cd ~/dev/flex-integration/SavageBeast/Engineering/projects'
 alias radio='cd ~/dev/main/SavageBeast/Engineering/projects/radio'
 alias webviews='cd ~/dev/main/SavageBeast/Engineering/projects/radio/web/content/mobile'
+alias deps='vim ~/dev/main/SavageBeast/Engineering/projects/dependencies.versions'
 alias dependencies='vim ~/dev/main/SavageBeast/Engineering/projects/dependencies.versions'
 alias ansibledir='cd ~/dev/main/SavageBeast/Engineering/projects/deploy/ansible'
 
@@ -90,22 +114,31 @@ alias rebuildRadioCoreAndProjects='core; gradle publishToMavenLocal --parallel; 
 alias rebuildProjects='projects; gradle build -x test --max-workers=12 --parallel --build-cache --configure-on-demand --stacktrace; vm sync; vm restart'
 
 alias vimsetup='vim ~/.vimrc'
+alias vimrc='vim ~/.vimrc'
+
 alias bashsetup='vim ~/.bash_profile'
+alias bashs='vim ~/.bash_profile'
+alias bashprofile='vim ~/.bash_profile'
+alias bashrc='vim ~/.bashrc'
 
 alias code='cd ~/Code'
 
-alias gopath='cd ~/Code/src'
+#alias gopath='cd ~/Code/src'
 
 alias vijay='cd ~/Code/vijayrudraraju.github.io'
 
 alias gitg='cd ~/Code/gitground'
-alias buefy='cd ~/Code/gitground/buefy'
+#alias buefy='cd ~/Code/gitground/buefy'
 
+alias reactplay='cd ~/Code/react-playground'
+alias reactnative='cd ~/Code/react-native-playground'
 alias konva='cd ~/Code/react-playground/konva-music-graph'
 alias spleunky='cd ~/Code/react-playground/spleunky'
-alias thumb-up='cd ~/Code/react-playground/minimal-react-webpack-babel-setup'
+alias flutterdir='cd ~/Code/flutter-apps-vijay'
+#alias thumb-up='cd ~/Code/react-playground/minimal-react-webpack-babel-setup'
 
 alias min='cd ~/Code/gitground/min'
+alias parse='cd ~/Code/parsegarden/parsegarden-up'
 
 #Checks the Status Iteratively
 alias vmstatus='function _vmstatus(){ i=0; while [[ $i -lt $1 ]] ; do vm status; i=`expr $i + 1`; echo $i;sleep $1; done };_vmstatus'
@@ -197,6 +230,8 @@ export P4PORT="ssl:perforce.savagebeast.com:1666"
 export P4CLIENT="vrudraraju-laptop"
 export P4EDITOR='/usr/bin/vi +0 "+/<enter\|^>>>>\|^====\|^<<<<\|^\t" +nohlsearch'
 #export PATH=/usr/local/bin:$PATH
+#export PYTHONPATH=/usr/local/lib/python2.7
+#export PYTHON=/usr/local/bin/python
 export VMPYTHON=/usr/local/bin/python2.7
 export VM_HOSTNAME=localhost
 export VM_ROOT=/Users/vrudraraju/vm_localhost
@@ -205,12 +240,13 @@ alias stoppg='/usr/local/bin/pg_ctl -D ${PGDATA} stop'
 alias statuspg='/usr/local/bin/pg_ctl status'
 
 # Golang
+export GOBIN=~/Code/golang/bin
 export GOPATH=~/Code/golang
+export PATH="$GOPATH:$GOBIN:$PATH"
 
 # Setting PATH for Python 3.6
 # The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
-export PATH
+export PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
 
 # added by Anaconda3 5.0.1 installer
 # export PATH="/Users/vrudraraju/anaconda3/bin:$PATH"
@@ -226,7 +262,7 @@ fi
 # GNU Coreutils (for nice, for StatsCollector)
 #alias nice='/usr/local/opt/coreutils/libexec/gnubin/nice'
 #export PATH=/usr/local/opt/coreutils/libexec/gnubin/nice:$PATH
-export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
+#export PATH=/usr/local/opt/coreutils/libexec/gnubin:$PATH
 
 # Use MacVim
 #alias vim='/Applications/MacVim.app/Contents/MacOS/Vim'
@@ -254,3 +290,9 @@ export LC_ALL=en_US.UTF-8
 
 # main to flex-integration
 alias integ-main-to-flex='p4 integ -d -b main-to-flex-integration'
+
+# react-native SDK
+export SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
+
+# Flutter SDK
+export PATH="~/Code/flutter/bin:$PATH"
