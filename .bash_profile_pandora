@@ -24,7 +24,8 @@ alias gpull='git pull'
 alias gurl='git remote show origin'
 alias gdevel='git checkout devel'
 alias gdev='git checkout devel'
-alias gstash='git stash list'
+alias gstash='git stash --include-untracked'
+alias gstashlist='git stash list'
 alias glist='git stash list'
 alias gpop='git stash pop'
 alias gshow='git stash show -p'
@@ -78,6 +79,7 @@ alias web='cd ~/Code/web-client'
 alias devel='cd ~/Code/web-client-devel'
 alias rc='cd ~/Code/web-client-rc'
 alias pr='cd ~/Code/web-client-pr'
+alias fresh='cd ~/Code/web-client-fresh'
 
 alias ios='cd ~/Code/ios'
 alias android='cd ~/Code/main'
@@ -105,7 +107,7 @@ alias localhost='cd ~/vm_localhost'
 alias config='vim ~/vm_localhost/.vm_config'
 alias defaultconfig='vim ~/vm_localhost/vmtools/data/dev_config'
 alias logs='cd ~/vm_localhost/var/log'
-alias vmlib='vim ~/vm_localhost/vmtools/lib/python/vmlib.py'
+#alias vmlib='vim ~/vm_localhost/vmtools/lib/python/vmlib.py'
 
 alias vmsetup='cd ~/vmsetup'
 alias setup='vim ~/vmsetup/macos-dev-vm/playbooks/setup.yml'
@@ -217,7 +219,7 @@ if [ -f ~/.git-completion.bash ]; then
 fi
 
 # Rust package manager
-export PATH="$HOME/.cargo/bin:$PATH"
+# export PATH="$HOME/.cargo/bin:$PATH"
 
 # PSQL
 export PGDATA=/usr/local/var/postgres
@@ -230,11 +232,9 @@ export P4PORT="ssl:perforce.savagebeast.com:1666"
 export P4CLIENT="vrudraraju-laptop"
 export P4EDITOR='/usr/bin/vi +0 "+/<enter\|^>>>>\|^====\|^<<<<\|^\t" +nohlsearch'
 #export PATH=/usr/local/bin:$PATH
-#export PYTHONPATH=/usr/local/lib/python2.7
-#export PYTHON=/usr/local/bin/python
-export VMPYTHON=/usr/local/bin/python2.7
-export VM_HOSTNAME=localhost
-export VM_ROOT=/Users/vrudraraju/vm_localhost
+#export VMPYTHON=/usr/local/bin/python2.7
+#export VM_HOSTNAME=localhost
+#export VM_ROOT=/Users/vrudraraju/vm_localhost
 alias startpg='/usr/local/bin/pg_ctl -D ${PGDATA} start'
 alias stoppg='/usr/local/bin/pg_ctl -D ${PGDATA} stop'
 alias statuspg='/usr/local/bin/pg_ctl status'
@@ -242,11 +242,12 @@ alias statuspg='/usr/local/bin/pg_ctl status'
 # Golang
 export GOBIN=~/Code/golang/bin
 export GOPATH=~/Code/golang
-export PATH="$GOPATH:$GOBIN:$PATH"
+export GOROOT=/usr/local/go
+export PATH="$GOROOT:$GOPATH:$GOBIN:$PATH"
 
 # Setting PATH for Python 3.6
 # The original version is saved in .bash_profile.pysave
-export PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+#export PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
 
 # added by Anaconda3 5.0.1 installer
 # export PATH="/Users/vrudraraju/anaconda3/bin:$PATH"
@@ -292,7 +293,42 @@ export LC_ALL=en_US.UTF-8
 alias integ-main-to-flex='p4 integ -d -b main-to-flex-integration'
 
 # react-native SDK
-export SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
+#export SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
 
 # Flutter SDK
-export PATH="~/Code/flutter/bin:$PATH"
+#export PATH="~/Code/flutter/bin:$PATH"
+
+# GCloud AIPlatform
+#alias python=python3
+
+# airflow needs a home, ~/airflow is the default,
+# but you can lay foundation somewhere else if you prefer
+# (optional)
+export AIRFLOW_HOME=~/airflow
+
+# Setting PATH for Python 3.8
+# The original version is saved in .bash_profile.pysave
+#PATH="/Library/Frameworks/Python.framework/Versions/3.8/bin:${PATH}"
+#export PATH
+
+# web security disabled chrome
+alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+alias unsafe-chrome='chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security'
+
+# npm global path
+#export PATH=~/.npm-global/bin:$PATH
+
+# iOS simulator
+alias iphone="open /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app"
+
+#export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+# Love game engine
+alias love="/Applications/love.app/Contents/MacOS/love"
+
+# Installing Python 3 on MacOS X https://docs.python-guide.org/starting/install3/osx/
+#export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+
+# New Pandora VM
+# alias pip=pip3
+# export PATH="/Users/vrudraraju/Library/Python/2.7/bin:$PATH"
